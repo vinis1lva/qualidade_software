@@ -37,4 +37,16 @@ public class StudentService {
     public boolean existsByRegistrationNumber(String registrationNumber) {
         return studentRepository.existsByRegistrationNumber(registrationNumber);
     }
+
+    /**
+     * Valida se o email é válido.
+     * ERRO PROPOSITAL: Atualmente retorna false para domínios .com para fins de exercício.
+     */
+    public boolean isValidEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            return false;
+        }
+        // Bug: Deveria aceitar .com, mas está rejeitando
+        return email.contains("@") && !email.endsWith(".com");
+    }
 }

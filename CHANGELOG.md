@@ -45,3 +45,19 @@ Esta seção resume os principais conceitos abordados na Aula 02 sobre Planejame
     *   **Entrada (Entry Criteria):** Condições para iniciar os testes.
     *   **Suspensão (Suspension Criteria):** Condições para pausar os testes.
     *   **Saída (Exit Criteria):** Condições para concluir os testes.
+
+---
+
+## Exercício Prático: Correção de Bug nos Testes Unitários
+
+### O Cenário
+Ao executar o comando `./mvnw clean install` ou `mvn test`, você notará que o build falhará. O culpado é um erro na lógica de validação de e-mail no `StudentService`.
+
+### Passo a Passo para os Alunos:
+1.  **Identificar a Falha:** Execute `mvn test` no terminal.
+2.  **Analisar o Relatório:** Observe qual caso de teste no `StudentServiceTest` falhou. (Dica: Olhe para o teste parametrizado `validarEmails`).
+3.  **Localizar o Bug:** Abra o arquivo `src/main/java/com/example/educationalqualityproject/service/StudentService.java`.
+4.  **Corrigir a Lógica:** Procure o método `isValidEmail`. Note que ele está rejeitando propositalmente e-mails que terminam com `.com`.
+5.  **Validar a Correção:** Após ajustar o código, execute `mvn test` novamente. O build deve passar com **SUCCESS**.
+
+---

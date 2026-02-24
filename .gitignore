@@ -48,4 +48,3 @@ Thumbs.db
 ### Extras ###
 .env
 .env.local
-src/main/resources/application.properties
