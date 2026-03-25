@@ -2,35 +2,43 @@
 
 ## [0.3.0] - 2026-03-15
 
-### Nova Atividade: Gestão de Bugs
+### Aula: Continuous Integration (CI)
 
 #### Objetivo
-Ensinar os alunos a identificar, documentar e reportar bugs de forma profissional usando GitHub Issues.
+Apresentar o conceito de Continuous Integration e mostrar como automatizar build e testes com GitHub Actions.
 
-#### Descrição da Atividade
-Um bug foi introduzido propositalmente no código da aplicação. O problema está localizado em um **Service** e faz com que a aplicação falhe ao iniciar, mesmo que **todos os testes passem**.
+#### O que e Continuous Integration
+Continuous Integration e a pratica de integrar alteracoes no repositorio com frequencia, executando validacoes automaticas a cada `push` ou `pull request`. O objetivo e detectar falhas cedo, reduzir regressões e garantir que o projeto continue compilando e passando nos testes enquanto evolui.
 
-Os alunos deverão:
-1. Identificar que a aplicação não inicia corretamente
-2. Investigar a causa raiz do problema
-3. Criar uma **Issue no GitHub** documentando corretamente o bug, incluindo:
-   - Título descritivo
-   - Descrição do problema
-   - Passos para reproduzir
-   - Comportamento esperado vs. comportamento atual
-   - Logs de erro relevantes
-   - Screenshots (se aplicável)
+#### Etapas do `ci.yml`
+O workflow `.github/workflows/ci.yml` foi estruturado para executar duas etapas principais:
+
+1. **Build**
+   - Executa em `ubuntu-latest`
+   - Faz o checkout do codigo com `actions/checkout@v4`
+   - Configura o Java 21 com `actions/setup-java@v4`
+   - Executa `./mvnw package -DskipTests` para compilar e empacotar a aplicacao
+   - Publica o `.jar` gerado como artifact com `actions/upload-artifact@v4`
+
+2. **Test**
+   - Executa apos o build com `needs: build`
+   - Provisiona um servico MongoDB para suportar os testes
+   - Faz novamente o checkout do codigo
+   - Configura o Java 21 e reutiliza cache Maven
+   - Baixa o artifact gerado no build com `actions/download-artifact@v4`
+   - Executa `./mvnw test` para validar o comportamento da aplicacao
 
 #### Competências Desenvolvidas
-- Debugging de aplicações Spring Boot
-- Análise de logs e stack traces
-- Identificação de bugs em tempo de inicialização (startup)
-- Documentação profissional de bugs
-- Uso adequado do GitHub Issues para rastreamento de problemas
+- Compreensao do conceito de Continuous Integration
+- Leitura e interpretacao de workflows do GitHub Actions
+- Automacao de build e execucao de testes
+- Uso de artifacts entre jobs
+- Validacao automatica de aplicacoes Java com Maven
 
 #### Arquivos Relacionados
-- Service com bug: `src/main/java/com/example/educationalqualityproject/service/`
-- Issue template: `.github/ISSUE_TEMPLATE/bug_report.md`
+- Workflow de CI: `.github/workflows/ci.yml`
+- Build Maven: `pom.xml`
+- Testes automatizados: `src/test/java/com/example/educationalqualityproject/`
 
 ---
 
